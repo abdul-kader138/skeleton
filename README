@@ -1,7 +1,5 @@
-This is a clean Spring MVC application skeleton with Hibernate persistence. I'm building with Maven and I'm doing functional testing with WebDriver.
-
-1. Run the Selenium tests (you will need to have Firefox installed):
-	mvn clean integration-test
+This is a Spring MVC application(Supplier & Inventory Management System) with Hibernate persistence.
+I'm building with Maven and I'm doing also unit testing.
 
 Done.
 
