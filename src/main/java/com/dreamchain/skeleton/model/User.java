@@ -47,7 +47,7 @@ public class User extends org.springframework.security.core.userdetails.User imp
 
 	@NumberFormat
 	@NotEmpty
-	@Length(min=10)
+	@Length(min=11)
 	private String phone;
 
 	@NotNull
@@ -190,28 +190,6 @@ public class User extends org.springframework.security.core.userdetails.User imp
 	}
 
 
-//	@Override
-//	public boolean equals(Object o) {
-//		if (this == o) return true;
-//		if (o == null || getClass() != o.getClass()) return false;
-//		if (!super.equals(o)) return false;
-//
-//		User user = (User) o;
-//
-//		if (!name.equals(user.name)) return false;
-//
-//		return true;
-//	}
-//
-//	@Override
-//	public int hashCode() {
-//		int result = super.hashCode();
-//		result = 31 * result + name.hashCode();
-//		return result;
-//	}
-
-
-
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof UserDetails) {
@@ -220,9 +198,7 @@ public class User extends org.springframework.security.core.userdetails.User imp
 		return false;
 	}
 
-	/**
-	 * Returns the hashcode of the {@code username}.
-	 */
+
 	@Override
 	public int hashCode() {
 		return name.hashCode();

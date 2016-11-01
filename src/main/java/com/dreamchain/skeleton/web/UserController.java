@@ -11,9 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.dreamchain.skeleton.service.UserService;
 
-import java.security.Principal;
 import java.text.ParseException;
 import java.util.*;
 
@@ -42,15 +38,7 @@ public class UserController {
     @Autowired
     Environment environment;
 
-
-    @RequestMapping(method = RequestMethod.POST, params = "_method=put")
-    public String put(Model model, @Valid UserGrid userGrid, BindingResult result) {
-        if (result.hasErrors()) {
-            return URL;
-        }
-        return "redirect:" + URL;
-    }
-
+    
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -60,15 +48,13 @@ public class UserController {
         String successMsg = "";
         String validationError="";
         String invalidUserError="";
-        HashMap<String, String> serverResponse = new HashMap<>();
+        logger.info("creating new user: >>");
         boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
         if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
         if(!isLoggedUserInvalid)validationError = userService.save(user);
         if (validationError.length() == 0 && !isLoggedUserInvalid) successMsg = environment.getProperty("user.save.success.msg");
-        serverResponse.put("successMsg", successMsg);
-        serverResponse.put("validationError", validationError);
-        serverResponse.put("invalidUserError", invalidUserError);
-        return serverResponse;
+        logger.info("creating new user: << " + successMsg + invalidUserError + invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,null);
     }
 
 
@@ -76,6 +62,7 @@ public class UserController {
     public
     @ResponseBody
     Map userPrinciple() {
+        logger.info("Getting Logged in user info: >>");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
         HashMap<String, String> userDetails = new HashMap<>();
@@ -83,6 +70,7 @@ public class UserController {
         userDetails.put("email", currentUser.getEmail());
         userDetails.put("id", String.valueOf(currentUser.getId()));
         userDetails.put("version", String.valueOf(currentUser.getVersion()));
+        logger.info("Getting Logged in user info: << "+currentUser.getName());
         return userDetails;
     }
 
@@ -95,7 +83,7 @@ public class UserController {
         String successMsg = "";
         String invalidUserError="";
         String validationError="";
-        HashMap<String, String> serverResponse = new HashMap<>();
+        logger.info("Changing user password: >>");
         boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
         if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
         if(!isLoggedUserInvalid) validationError = userService.changePassword(userInfo.get("userName"), userInfo.get("oldPassword"), userInfo.get("newPassword"));
@@ -103,10 +91,8 @@ public class UserController {
             httpSession.invalidate();
             successMsg = environment.getProperty("user.password.change.success.msg");
         }
-        serverResponse.put("successMsg", successMsg);
-        serverResponse.put("successMsg", successMsg);
-        serverResponse.put("invalidUserError", invalidUserError);
-        return serverResponse;
+        logger.info("Changing user password: << "+successMsg+invalidUserError+invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,null);
     }
 
 
@@ -118,10 +104,11 @@ public class UserController {
     @ResponseBody
     List<User> loadUserList(@RequestBody String email,HttpSession httpSession) {
         List userList=new ArrayList();
+        logger.info("Loading all user info: >> ");
         boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
         if(!isLoggedUserInvalid)
-        logger.info("start");
         userList = userService.findAll(email);
+        logger.info("Loading all user info: << total "+userList.size());
         return userList;
     }
 
@@ -130,22 +117,16 @@ public class UserController {
     public
     @ResponseBody
     Map updateUser(@RequestBody User user,HttpSession httpSession) throws ParseException {
-
-
         String successMsg = "";
         String validationError="";
         String invalidUserError="";
-        boolean isLoggedUserInvalid=false;
-        HashMap serverResponse = new HashMap<>();
-        isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
+        logger.info("Updating user: >>");
+        boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
         if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
         if(!isLoggedUserInvalid) validationError = userService.updateUser(user);
         if (validationError.length() == 0 && !isLoggedUserInvalid) successMsg = environment.getProperty("user.update.success.msg");
-        serverResponse.put("successMsg", successMsg);
-        serverResponse.put("validationError", validationError);
-        serverResponse.put("invalidUserError", invalidUserError);
-        serverResponse.put("user", userService.get(user.getId()));
-        return serverResponse;
+        logger.info("Updating user:  << "+successMsg+invalidUserError+invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,userService.get(user.getId()));
 
    }
 
@@ -157,15 +138,13 @@ public class UserController {
         String successMsg = "";
         String validationError = "";
         String invalidUserError="";
-        HashMap serverResponse = new HashMap();
+        logger.info("Delete user:  >> ");
         boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
         if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
         if(!isLoggedUserInvalid) validationError = userService.delete(Long.parseLong(id));
         if (validationError.length() == 0 && !isLoggedUserInvalid) successMsg = environment.getProperty("user.delete.success.msg");
-        serverResponse.put("successMsg", successMsg);
-        serverResponse.put("validationError", validationError);
-        serverResponse.put("invalidUserError", invalidUserError);
-        return serverResponse;
+        logger.info("Delete user:  << "+successMsg+invalidUserError+invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,null);
     }
 
 
@@ -179,6 +158,16 @@ public class UserController {
             httpSession.invalidate();
         }
         return isLoggedUserExists;
+    }
+
+    private Map createServerResponse(String successMsg,String validationError,String invalidUserError,User user){
+        HashMap serverResponse = new HashMap();
+        serverResponse.put("successMsg", successMsg);
+        serverResponse.put("validationError", validationError);
+        serverResponse.put("invalidUserError", invalidUserError);
+        serverResponse.put("user",user);
+        return serverResponse;
+
     }
 
 }
