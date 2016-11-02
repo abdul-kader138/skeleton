@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     private String checkInput(User user) {
         String msg = "";
         if (user.getName() == null || user.getEmail() == null
-                || user.getPhone() == null || user.getPassword() == null || user.getRole() == null)
+                || user.getPhone() == 0 || user.getPassword() == null || user.getRole() == null)
             msg = INVALID_INPUT;
 
         //server side validation check
