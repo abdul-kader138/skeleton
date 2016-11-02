@@ -46,11 +46,11 @@ public class User extends org.springframework.security.core.userdetails.User imp
 	private String email;
 
 	@NumberFormat
-	@NotEmpty
-	@Length(min=11)
-	private String phone;
-
 	@NotNull
+	@Length(min=11)
+	private long phone;
+
+	@NotEmpty
 	private String role;
 
 	@Column
@@ -77,7 +77,7 @@ public class User extends org.springframework.security.core.userdetails.User imp
 				boolean accountNonLocked,
 					Collection authorities,
 					String name,String email, String role,
-					String phone,String createdBy,String updatedBy,Date createdOn,Date updatedOn) {
+					long phone,String createdBy,String updatedBy,Date createdOn,Date updatedOn) {
 		super(username, password, enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, authorities);
 
@@ -125,11 +125,11 @@ public class User extends org.springframework.security.core.userdetails.User imp
 		this.email = email;
 	}
 
-	public String getPhone() {
+	public long getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 
