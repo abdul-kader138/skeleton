@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     private String checkInput(User user) {
         String msg = "";
         if (user.getName() == null || user.getEmail() == null
-                || user.getPhone() == 0 || user.getPassword() == null || user.getRole() == null)
+                || user.getPhone() == null || user.getPassword() == null || user.getRole() == null)
             msg = INVALID_INPUT;
 
         //server side validation check
@@ -208,8 +208,8 @@ public class UserServiceImpl implements UserService {
         userObj.setId(objFromUI.getId());
         userObj.setVersion(objFromUI.getVersion());
         userObj = setEditorInfo(userObj, "update");
-        userObj.setCreatedBy(objFromUI.getCreatedBy());
-        userObj.setCreatedOn(objFromUI.getCreatedOn());
+        userObj.setCreatedBy(existingUser.getCreatedBy());
+        userObj.setCreatedOn(existingUser.getCreatedOn());
         userObj.setPassword(existingUser.getPassword());
         return userObj;
     }

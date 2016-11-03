@@ -63,13 +63,13 @@
                         <input type="hidden" ng-model="user.id"/>
                         <input type="hidden" ng-model="user.version"/>
                         <input type="hidden" ng-model="user.password" value=""/>
-                        <input ng-model="user.name"  minlength="4" type="text" class="form-control" id="name" maxlength="50"
+                        <input ng-model="user.name"   type="text" class="form-control" id="name" maxlength="50"
                                required="required">
                         <span style="color:red" ng-show="validationError.name">{{validationError.name}}</span>
                     </div>
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="text" ng-readonly="true" ng-model="user.email"  minlength="8"  class="form-control" id="email">
+                        <input type="text" ng-readonly="true" ng-model="user.email"    class="form-control" id="email">
                         <span style="color:red" ng-show="validationError.email">{{validationError.email}}</span>
                     </div>
                     <div class="form-group">
@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Phone</label>
-                        <input type="text" maxlength="11" minlength="11" ng-model="user.phone" class="form-control" id="phone">
+                        <input type="text" maxlength="11"  ng-model="user.phone" class="form-control" id="phone">
                         <span style="color:red" ng-show="validationError.phone">{{validationError.phone}}</span>
                     </div>
                 </form>
