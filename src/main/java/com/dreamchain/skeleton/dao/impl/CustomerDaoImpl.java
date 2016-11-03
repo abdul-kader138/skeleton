@@ -20,7 +20,7 @@ public class CustomerDaoImpl implements CustomerDao{
 
     @Override
     public Customer get(Long id) {
-        return null;
+        return hibernateTemplate.get(Customer.class,id);
     }
 
     @Override

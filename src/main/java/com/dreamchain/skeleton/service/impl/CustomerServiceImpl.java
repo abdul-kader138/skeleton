@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer get(Long id) {
-        return null;
+        return customerDao.get(id);
     }
 
     @Override

@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-@Service
+@Service(value = "userService")
 @PropertySource("classpath:config.properties")
 public class UserServiceImpl implements UserService {
 

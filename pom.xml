@@ -256,7 +256,24 @@
 			<version>1.4.01</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+
+		<!--for jax-ws-->
+
+		<!-- JAX-WS -->
+		<dependency>
+			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+			<artifactId>jaxws-spring</artifactId>
+			<version>1.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+
+
 	</dependencies>
 	
 </project>

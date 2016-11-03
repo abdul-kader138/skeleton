@@ -46,6 +46,25 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+
+
+
+	<!--jax-ws-->
+
+
+	<servlet>
+		<servlet-name>customer</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>customer</servlet-name>
+		<url-pattern>/customer</url-pattern>
+	</servlet-mapping>
+
+
+
 		<!-- This filter has to come before other filters. -->
 
 	<filter>
