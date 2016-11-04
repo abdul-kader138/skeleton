@@ -28,7 +28,7 @@ public class UserDaoImplTest extends DaoTest {
 		Assert.assertEquals("Name1", newUser.getName());
 		Assert.assertEquals("Babu@do.com", newUser.getEmail());
 		Assert.assertEquals("ROLE_USER", newUser.getRole());
-		Assert.assertEquals(99876543211l, newUser.getPhone());
+		Assert.assertEquals("99876543211", newUser.getPhone());
 
 		User obj=newUser;
 		obj.setName("Name2");

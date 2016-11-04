@@ -5,8 +5,8 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="/resources/node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/node_modules/custom-css/app.css">
+    <link rel="stylesheet" href="resources/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/node_modules/custom-css/app.css">
 </head>
 
 <body ng-app="myApp">
@@ -79,12 +79,12 @@
 
 
 <script src="resources/node_modules/jquery/dist/jquery.min.js"></script>
-<script src="/resources/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/resources/node_modules/angular/angular.min.js"></script>
-<script src="/resources/node_modules/angular-route/angular-route.min.js"></script>
-<script src="/resources/node_modules/ngstorage/ngStorage.min.js"></script>
-<script src="/resources/node_modules/custom-js/app.js"></script>
-<script src="/resources/node_modules/custom-js/controller.js"></script>
+<script src="resources/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="resources/node_modules/angular/angular.min.js"></script>
+<script src="resources/node_modules/angular-route/angular-route.min.js"></script>
+<script src="resources/node_modules/ngstorage/ngStorage.min.js"></script>
+<script src="resources/node_modules/custom-js/app.js"></script>
+<script src="resources/node_modules/custom-js/controller.js"></script>
 
 <noscript>
     <div class="container">
