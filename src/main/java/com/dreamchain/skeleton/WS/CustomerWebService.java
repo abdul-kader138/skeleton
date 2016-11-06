@@ -19,10 +19,10 @@ public class CustomerWebService {
     @Autowired(required = true)
     private CustomerService customerService;
 
-//    @WebMethod(exclude = true)
-//    public void setCustomerService(CustomerService customerService) {
-//        this.customerService = customerService;
-//    }
+    @WebMethod(exclude = true)
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
     @WebMethod(operationName = "getCustomerById")
     public Customer getCustomerById(long id) {
         Customer customer = customerService.get(id);
