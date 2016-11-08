@@ -11,8 +11,8 @@ public interface CustomerDao {
     void update(Customer customer);
     void delete(Customer customer);
     void remove(Customer customer);
-    List<Customer> findAll(String customerName);
+    List<Customer> findAll();
     Customer findByCustomerCode(String customerCode);
-    Customer findByNid(Integer nidNo);
+    Customer findByNid(int nidNo);
 
 }

@@ -31,22 +31,22 @@ public class CustomerDaoImpl implements CustomerDao{
 
     @Override
     public void update(Customer customer) {
-
+        hibernateTemplate.update(customer);
     }
 
     @Override
     public void delete(Customer customer) {
-
+      hibernateTemplate.delete(customer);
     }
 
     @Override
     public void remove(Customer customer) {
-
+        hibernateTemplate.evict(customer);
     }
 
     @Override
-    public List<Customer> findAll(String customerName) {
-        return null;
+    public List<Customer> findAll() {
+        return hibernateTemplate.loadAll(Customer.class);
     }
 
     @Override
@@ -61,10 +61,10 @@ public class CustomerDaoImpl implements CustomerDao{
     }
 
     @Override
-    public Customer findByNid(Integer nidNo) {
+    public Customer findByNid(int nid) {
         Customer customer=null;
         DetachedCriteria dcr= DetachedCriteria.forClass(Customer.class);
-        Criterion cr = Restrictions.eq("nid", nidNo);
+        Criterion cr = Restrictions.eq("nid", nid);
         dcr.add(cr);
         List<Object> lst= hibernateTemplate.findByCriteria(dcr);
         if(lst.size()==0)return customer;

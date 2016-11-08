@@ -1,6 +1,7 @@
 package com.dreamchain.skeleton.model;
 
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,6 +27,7 @@ public class Customer {
     @Version
     private long version;
 
+
     @NotEmpty
     @Column(name = "customerCode",unique = true,length = 6)
     private String customerCode;
@@ -42,13 +44,15 @@ public class Customer {
     @Column(name = "nid",unique = true,length = 13)
     private Integer nid;
 
+
     @NotEmpty
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @NotNull
-    @Column(name = "phone")
-    private Integer phone;
+    @Column(name = "phone",unique = true)
+    private String phone;
+
 
     @Column
     private long createdBy;
@@ -56,10 +60,8 @@ public class Customer {
     @Column
     private long updatedBy;
 
-
     @Column
     private Date createdOn;
-
 
     @Column
     private Date updatedOn;
@@ -121,19 +123,18 @@ public class Customer {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
-
 
     public Date getCreatedOn() {
         return createdOn;
     }
-
+    @JsonIgnore
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
     }
@@ -141,7 +142,7 @@ public class Customer {
     public Date getUpdatedOn() {
         return updatedOn;
     }
-
+    @JsonIgnore
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
     }
@@ -149,7 +150,7 @@ public class Customer {
     public long getUpdatedBy() {
         return updatedBy;
     }
-
+    @JsonIgnore
     public void setUpdatedBy(long updatedBy) {
         this.updatedBy = updatedBy;
     }
@@ -157,7 +158,7 @@ public class Customer {
     public long getCreatedBy() {
         return createdBy;
     }
-
+    @JsonIgnore
     public void setCreatedBy(long createdBy) {
         this.createdBy = createdBy;
     }

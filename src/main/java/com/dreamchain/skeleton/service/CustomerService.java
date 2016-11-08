@@ -18,7 +18,7 @@ public interface CustomerService {
 
     String delete(Long customerId);
 
-    List<Customer> findAllCustomer(String customerName);
+    List<Customer> findAllCustomer();
 
     Customer findByCustomerCode(String customerCode);
 

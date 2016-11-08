@@ -12,11 +12,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -63,8 +67,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAllCustomer(String customerName) {
-        return null;
+    public List<Customer> findAllCustomer() {
+        return customerDao.findAll();
     }
 
     @Override
@@ -78,6 +82,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer.getName() == null || customer.getEmail() == null
                 || customer.getPhone() == null || customer.getNid() == null || customer.getAddress() == null)
             msg = INVALID_INPUT;
+
+        //server side validation check
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(customer);
+        if (constraintViolations.size() > 0 && msg == "") msg = INVALID_INPUT;
+
+
         return msg;
 
     }

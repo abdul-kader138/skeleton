@@ -275,7 +275,7 @@
 		</dependency>
 
 
-		<!--for jax-ws-->
+		<!--for jax-WS-->
 
 		<!-- JAX-WS -->
 		<dependency>

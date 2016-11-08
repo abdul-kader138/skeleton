@@ -25,7 +25,7 @@
 	</wss:binding>
 
 
-	<bean id="ApplicationWSEndpoint" class="com.dreamchain.skeleton.WS.ApplicationWS">
+	<bean id="ApplicationWSEndpoint" class="com.dreamchain.skeleton.WS.ApplicationWS" autowire="byType">
 	</bean>
 
 </beans>

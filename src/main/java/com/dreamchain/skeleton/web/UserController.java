@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.dreamchain.skeleton.model.User;
+import com.dreamchain.skeleton.permission.CheckLoggedInUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,17 +149,6 @@ public class UserController {
     }
 
 
-    private boolean checkLoggedInUserExistence(HttpSession httpSession){
-        boolean isLoggedUserExists =false;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = (User) auth.getPrincipal();
-        User user=userService.findByUserName(loggedUser.getEmail());
-        if(user ==null){
-            isLoggedUserExists=true;
-            httpSession.invalidate();
-        }
-        return isLoggedUserExists;
-    }
 
     private Map createServerResponse(String successMsg,String validationError,String invalidUserError,User user){
         HashMap serverResponse = new HashMap();
@@ -169,5 +159,18 @@ public class UserController {
         return serverResponse;
 
     }
+
+    private boolean checkLoggedInUserExistence(HttpSession httpSession) {
+        boolean isLoggedUserExists = false;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = (User) auth.getPrincipal();
+        User user = userService.findByUserName(loggedUser.getEmail());
+        if (user == null) {
+            isLoggedUserExists = true;
+            httpSession.invalidate();
+        }
+        return isLoggedUserExists;
+    }
+
 
 }

@@ -1,9 +1,7 @@
 package com.dreamchain.skeleton.WS;
 
 import com.dreamchain.skeleton.model.Customer;
-import com.dreamchain.skeleton.model.User;
 import com.dreamchain.skeleton.service.CustomerService;
-import com.dreamchain.skeleton.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jws.WebMethod;
