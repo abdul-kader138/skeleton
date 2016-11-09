@@ -46,12 +46,12 @@ public class CustomerController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map saveUser(HttpSession httpSession) throws ParseException {
+    Map saveUser(@RequestBody Customer customer,HttpSession httpSession) throws ParseException {
         String successMsg = "";
         String validationError = "";
         String invalidUserError = "";
         logger.info("creating new customer: >>");
-        Customer customer=new Customer();
+//        Customer customer=new Customer();
         boolean isLoggedUserInvalid = checkLoggedInUserExistence(httpSession);
         if (isLoggedUserInvalid) invalidUserError = environment.getProperty("user.invalid.error.msg");
         if (!isLoggedUserInvalid) validationError = customerService.save(customer);

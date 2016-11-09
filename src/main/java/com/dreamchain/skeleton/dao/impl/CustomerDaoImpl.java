@@ -61,7 +61,7 @@ public class CustomerDaoImpl implements CustomerDao{
     }
 
     @Override
-    public Customer findByNid(int nid) {
+    public Customer findByNid(String nid) {
         Customer customer=null;
         DetachedCriteria dcr= DetachedCriteria.forClass(Customer.class);
         Criterion cr = Restrictions.eq("nid", nid);

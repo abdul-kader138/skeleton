@@ -13,6 +13,6 @@ public interface CustomerDao {
     void remove(Customer customer);
     List<Customer> findAll();
     Customer findByCustomerCode(String customerCode);
-    Customer findByNid(int nidNo);
+    Customer findByNid(String nidNo);
 
 }
