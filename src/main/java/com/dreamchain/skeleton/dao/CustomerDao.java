@@ -15,5 +15,6 @@ public interface CustomerDao {
     Customer findByCustomerCode(String customerCode);
     Customer findByNid(String nidNo);
     Customer findByEmailAndPhone(String email,String phone);
+    Customer updateCustomerEmailAndPhone(String email,String phone,long id);
 
 }

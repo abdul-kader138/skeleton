@@ -14,7 +14,7 @@ public interface CustomerService {
 
     String save(Customer customer) throws ParseException;
 
-    List updateUser(Customer customer) throws ParseException;
+    String updateCustomer(Customer customer) throws ParseException;
 
     String delete(Long customerId);
 

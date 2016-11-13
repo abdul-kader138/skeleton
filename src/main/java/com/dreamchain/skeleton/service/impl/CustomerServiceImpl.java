@@ -35,6 +35,8 @@ public class CustomerServiceImpl implements CustomerService {
     private static String INVALID_INPUT = "Invalid input";
     private static String NID_EXISTS = "This NID/Customer already exists in the system.Please try again with new one!!!";
     private static String EMAIL_PHONE_EXISTS = "Email or Phone no already exists in the system.Please try again with new one!!!";
+    private static String INVALID_CUSTOMER = "Customer not exists";
+    private static String BACK_DATED_DATA = "User data is old.Please try again with updated data";
 
 
 
@@ -61,8 +63,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List updateUser(Customer customer) throws ParseException {
-        return null;
+    @Transactional
+    public String updateCustomer(Customer customer) throws ParseException {
+        String validationMsg = "";
+        validationMsg = checkInput(customer);
+        Customer existingCustomer = customerDao.get(customer.getId());
+        if (existingCustomer == null && validationMsg == "") validationMsg = INVALID_CUSTOMER;
+        if (existingCustomer.getVersion() != existingCustomer.getVersion() && validationMsg == "") validationMsg = BACK_DATED_DATA;
+        existingCustomer=customerDao.updateCustomerEmailAndPhone(customer.getEmail(), customer.getPhone(),existingCustomer.getId());
+        if (existingCustomer != null && validationMsg=="") validationMsg = EMAIL_PHONE_EXISTS;
+        //@todo
+        // email check now omit bcz it is not send from user side
+        //if (validationMsg == "") validationMsg = checkForDuplicateEmail(existingUser, user.getEmail());
+        if ("".equals(validationMsg)) {
+            Customer newObj=setUpdateCustomerValue(customer, existingCustomer);
+            customerDao.remove(existingCustomer);
+            customerDao.update(newObj);
+        }
+        return validationMsg;
     }
 
     @Override
@@ -129,5 +147,23 @@ public class CustomerServiceImpl implements CustomerService {
         return code;
     }
 
+
+    private Customer setUpdateCustomerValue(Customer objFromUI,Customer existingCustomer) throws ParseException {
+        Customer customerObj = new Customer();
+        customerObj.setId(objFromUI.getId());
+        customerObj.setVersion(objFromUI.getVersion());
+        customerObj = setAdminInfo(customerObj, "update");
+        customerObj.setCreatedBy(existingCustomer.getCreatedBy());
+        customerObj.setCreatedOn(existingCustomer.getCreatedOn());
+        customerObj.setAddress(existingCustomer.getAddress());
+        customerObj.setName(existingCustomer.getName());
+        customerObj.setCustomerCode(existingCustomer.getCustomerCode());
+        customerObj.setEmail(existingCustomer.getEmail());
+        customerObj.setPhone(existingCustomer.getPhone());
+        customerObj.setNid(existingCustomer.getNid());
+        return customerObj;
     }
+
+
+}
 

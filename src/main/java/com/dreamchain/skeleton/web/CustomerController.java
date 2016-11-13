@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -62,12 +64,44 @@ public class CustomerController {
     }
 
 
-    private Map createServerResponse(String successMsg, String validationError, String invalidUserError, User user) {
+    @RequestMapping(value = "/customerList", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<Customer> loadUserList(@RequestBody String email,HttpSession httpSession) {
+        List customerList=new ArrayList();
+        logger.info("Loading all customer info: >> ");
+        boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
+        if(!isLoggedUserInvalid)
+            customerList = customerService.findAllCustomer();
+        logger.info("Loading all user info: << total "+customerList.size());
+        return customerList;
+    }
+
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map updateUser(@RequestBody Customer customer,HttpSession httpSession) throws ParseException {
+        String successMsg = "";
+        String validationError="";
+        String invalidUserError="";
+        logger.info("Updating customer: >>");
+        boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
+        if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
+        if(!isLoggedUserInvalid) validationError = customerService.updateCustomer(customer);
+        if (validationError.length() == 0 && !isLoggedUserInvalid) successMsg = environment.getProperty("customer.update.success.msg");
+        logger.info("Updating customer:  << "+successMsg+invalidUserError+invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,customerService.get(customer.getId()));
+
+    }
+
+
+    private Map createServerResponse(String successMsg, String validationError, String invalidUserError, Customer customer) {
         HashMap serverResponse = new HashMap();
         serverResponse.put("successMsg", successMsg);
         serverResponse.put("validationError", validationError);
         serverResponse.put("invalidUserError", invalidUserError);
-        serverResponse.put("user", user);
+        serverResponse.put("customer", customer);
         return serverResponse;
 
     }

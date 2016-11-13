@@ -83,4 +83,19 @@ public class CustomerDaoImpl implements CustomerDao{
         if(lst.size()==0)return customer;
         return (Customer)lst.get(0);
     }
+
+
+    @Override
+    public Customer updateCustomerEmailAndPhone(String email, String phone,long id) {
+        Customer customer=null;
+        DetachedCriteria dcr= DetachedCriteria.forClass(Customer.class);
+        Criterion crEmail = Restrictions.eq("email", email);
+        Criterion crPhone = Restrictions.eq("phone", phone);
+        Criterion crId = Restrictions.ne("id", id);
+        Criterion cr = Restrictions.or(Restrictions.and(crId),crEmail, crPhone);
+        dcr.add(cr);
+        List<Object> lst= hibernateTemplate.findByCriteria(dcr);
+        if(lst.size()==0)return customer;
+        return (Customer)lst.get(0);
+    }
 }

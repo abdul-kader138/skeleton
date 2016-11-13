@@ -100,7 +100,7 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/userList", method = RequestMethod.POST)
+    @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public
     @ResponseBody
     List<User> loadUserList(@RequestBody String email,HttpSession httpSession) {
