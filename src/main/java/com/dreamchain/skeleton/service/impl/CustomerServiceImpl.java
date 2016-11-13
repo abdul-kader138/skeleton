@@ -75,11 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.findAll();
     }
 
-    @Override
-    public Customer findByCustomerCode(String customerCode) {
-        return null;
-    }
-
 
     private String checkInput(Customer customer) {
         String msg = "";
