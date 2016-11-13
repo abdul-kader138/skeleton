@@ -6,10 +6,11 @@ import com.dreamchain.skeleton.model.Customer;
 import com.dreamchain.skeleton.model.User;
 import com.dreamchain.skeleton.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
@@ -33,6 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private static String INVALID_INPUT = "Invalid input";
     private static String NID_EXISTS = "This NID/Customer already exists in the system.Please try again with new one!!!";
+    private static String EMAIL_PHONE_EXISTS = "Email or Phone no already exists in the system.Please try again with new one!!!";
 
 
 
@@ -48,6 +50,8 @@ public class CustomerServiceImpl implements CustomerService {
         validationMsg = checkInput(customer);
         Customer existingCustomer = customerDao.findByNid(customer.getNid());
         if (existingCustomer != null && validationMsg=="") validationMsg = NID_EXISTS;
+        existingCustomer=customerDao.findByEmailAndPhone(customer.getEmail(), customer.getPhone());
+        if (existingCustomer != null && validationMsg=="") validationMsg = EMAIL_PHONE_EXISTS;
         if ("".equals(validationMsg)) {
             Customer customerObj = setAdminInfo(customer, "save");
             customerObj.setCustomerCode(createCustomerCode(customer.getName()));

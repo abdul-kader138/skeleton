@@ -14,5 +14,6 @@ public interface CustomerDao {
     List<Customer> findAll();
     Customer findByCustomerCode(String customerCode);
     Customer findByNid(String nidNo);
+    Customer findByEmailAndPhone(String email,String phone);
 
 }

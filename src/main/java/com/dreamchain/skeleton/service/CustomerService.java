@@ -20,6 +20,4 @@ public interface CustomerService {
 
     List<Customer> findAllCustomer();
 
-    Customer findByCustomerCode(String customerCode);
-
 }
