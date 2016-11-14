@@ -70,8 +70,8 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingCustomer = customerDao.get(customer.getId());
         if (existingCustomer == null && validationMsg == "") validationMsg = INVALID_CUSTOMER;
         if (existingCustomer.getVersion() != existingCustomer.getVersion() && validationMsg == "") validationMsg = BACK_DATED_DATA;
-        existingCustomer=customerDao.updateCustomerEmailAndPhone(customer.getEmail(), customer.getPhone(),existingCustomer.getId());
-        if (existingCustomer != null && validationMsg=="") validationMsg = EMAIL_PHONE_EXISTS;
+        Customer matchedCustomer=customerDao.updateCustomerEmailAndPhone(customer.getEmail(), customer.getPhone(),existingCustomer.getId());
+        if (matchedCustomer != null && validationMsg=="") validationMsg = EMAIL_PHONE_EXISTS;
         //@todo
         // email check now omit bcz it is not send from user side
         //if (validationMsg == "") validationMsg = checkForDuplicateEmail(existingUser, user.getEmail());
@@ -83,10 +83,19 @@ public class CustomerServiceImpl implements CustomerService {
         return validationMsg;
     }
 
-    @Override
+    @Transactional
     public String delete(Long customerId) {
-        return null;
+        String validationMsg = "";
+        if (customerId == null) validationMsg = INVALID_INPUT;
+        Customer existingCustomer = customerDao.get(customerId);
+        if (existingCustomer == null && validationMsg == "") validationMsg = INVALID_CUSTOMER;
+        if ("".equals(validationMsg)) {
+            customerDao.delete(existingCustomer);
+        }
+        return validationMsg;
     }
+
+
 
     @Override
     public List<Customer> findAllCustomer() {
@@ -156,10 +165,10 @@ public class CustomerServiceImpl implements CustomerService {
         customerObj.setCreatedBy(existingCustomer.getCreatedBy());
         customerObj.setCreatedOn(existingCustomer.getCreatedOn());
         customerObj.setAddress(existingCustomer.getAddress());
-        customerObj.setName(existingCustomer.getName());
+        customerObj.setName(objFromUI.getName());
         customerObj.setCustomerCode(existingCustomer.getCustomerCode());
-        customerObj.setEmail(existingCustomer.getEmail());
-        customerObj.setPhone(existingCustomer.getPhone());
+        customerObj.setEmail(objFromUI.getEmail());
+        customerObj.setPhone(objFromUI.getPhone());
         customerObj.setNid(existingCustomer.getNid());
         return customerObj;
     }

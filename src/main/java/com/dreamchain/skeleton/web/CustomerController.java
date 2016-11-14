@@ -96,6 +96,26 @@ public class CustomerController {
     }
 
 
+
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map deleteCustomer(@RequestBody String id,HttpSession httpSession) throws ParseException {
+        String successMsg = "";
+        String validationError = "";
+        String invalidUserError="";
+        logger.info("Delete customer:  >> ");
+        boolean isLoggedUserInvalid=checkLoggedInUserExistence(httpSession);
+        if(isLoggedUserInvalid) invalidUserError= environment.getProperty("user.invalid.error.msg");
+        if(!isLoggedUserInvalid) validationError = customerService.delete(Long.parseLong(id));
+        if (validationError.length() == 0 && !isLoggedUserInvalid) successMsg = environment.getProperty("customer.delete.success.msg");
+        logger.info("Delete customer:  << "+successMsg+invalidUserError+invalidUserError);
+        return createServerResponse(successMsg,validationError,invalidUserError,null);
+    }
+
+
+
     private Map createServerResponse(String successMsg, String validationError, String invalidUserError, Customer customer) {
         HashMap serverResponse = new HashMap();
         serverResponse.put("successMsg", successMsg);

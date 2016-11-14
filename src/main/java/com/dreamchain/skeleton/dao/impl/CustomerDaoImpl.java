@@ -92,8 +92,9 @@ public class CustomerDaoImpl implements CustomerDao{
         Criterion crEmail = Restrictions.eq("email", email);
         Criterion crPhone = Restrictions.eq("phone", phone);
         Criterion crId = Restrictions.ne("id", id);
-        Criterion cr = Restrictions.or(Restrictions.and(crId),crEmail, crPhone);
+        Criterion cr = Restrictions.or(Restrictions.and(crEmail), crPhone);
         dcr.add(cr);
+        dcr.add(crId);
         List<Object> lst= hibernateTemplate.findByCriteria(dcr);
         if(lst.size()==0)return customer;
         return (Customer)lst.get(0);
