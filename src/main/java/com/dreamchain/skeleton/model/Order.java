@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "customer",
+@Table(name = "Order",
         indexes = {
                 @Index(name = "order_created_by_id_idx", columnList = "createdBy"),
                 @Index(name = "order_updated_by_id_idx", columnList = "updatedBy"),
@@ -33,6 +34,22 @@ public class Order {
     @Column(name = "orderCode",unique = true,length = 11)
     private String orderCode;
 
+
+    @NotEmpty
+    @Column(name = "colour")
+    private String colour;
+
+    @NotEmpty
+    @Column(name = "gsm")
+    private String gsm;
+
+    @NotNull
+    @Column(name = "quantity")
+    private String quantity;
+
+    @NotEmpty
+    @Column(name = "um")
+    private String um;
 
     @NotEmpty
     @Column(name = "isActive")
