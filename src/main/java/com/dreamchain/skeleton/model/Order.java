@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "Order",
+@Table(name = "order",
         indexes = {
                 @Index(name = "order_created_by_id_idx", columnList = "createdBy"),
                 @Index(name = "order_updated_by_id_idx", columnList = "updatedBy"),
-                @Index(name = "order_updated_by_id_idx", columnList = "customerCode")
+                @Index(name = "order_customer_code_idx", columnList = "customerCode")
         })
 public class Order {
 
